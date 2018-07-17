@@ -1,0 +1,60 @@
+﻿<script>
+    (function () {
+        // your page initialization code here
+        // the DOM will be available here
+        setInterval(function () {
+            $('#sydney').text(moment.tz("Australia/Sydney").format('MMMM Do YYYY, h:mm:ss a'));
+            $('#manila').text(moment.tz('Asia/Manila').format('MMMM Do YYYY, h:mm:ss a'));
+        }, 1000);
+
+    })();
+    function GetAllEntries() {
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("outputallentries").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "http://localhost:50002/api/currententries", true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send();
+    }
+    function UserAction() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("outputentries").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "http://localhost:50002/api/currenttime", true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send();
+    }
+</script>
+<div class="jumbotron">
+    <h2>AWH Clockwork Project @ViewData["Version"] on @ViewData["Runtime"]!</h2>
+    <p class="lead"></p>
+    <p><a onclick="UserAction()" class="btn btn-primary btn-lg">Get the time &raquo;</a></p>
+    <p class="lead"></p>
+    <p><a onclick="GetAllEntries()" class="btn btn-primary btn-lg">Get All Entries&raquo;</a></p>
+    <p class="lead"></p>
+    <p>Manila Time Zone</p>
+    <p class="lead" id="manila"></p>
+    @*<br><p>Sydney Time Zone</p>
+        <p class="lead" id="sydney"></p>*@
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h2>Output</h2>
+        <p id="outputentries"></p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h2>All Database Entries</h2>
+        <p id="outputallentries"></p>
+    </div>
+</div>
+
+
